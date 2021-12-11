@@ -10,8 +10,8 @@ Vector3::Vector3() {
 
 Vector3::Vector3(double x, double y, double z) {
     this->x = x;
-    this->y = x;
-    this->z = x;
+    this->y = y;
+    this->z = z;
 }
 
 double Vector3::norm() {

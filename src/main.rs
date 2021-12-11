@@ -1,16 +1,14 @@
 extern crate cpp;
 
 use std::ops::{Add, Sub, Mul, Div};
-use std::ffi::CStr;
-use libc::c_char;
+// use std::ffi::CStr;
+// use libc::c_char;
 
 use cpp::cpp;
 use cpp::cpp_class;
 
 cpp!{{
     #include "vector/vector.hpp"
-    #include <iostream>
-    #include <stdio.h>
 }}
 
 cpp_class!(pub unsafe struct Vector3 as "Vector3");
@@ -77,6 +75,7 @@ impl Vector3 {
     }
     
     // This doesn't work
+    /*
     fn to_string(&self) -> String {
         unsafe {
             CStr::from_ptr(
@@ -88,6 +87,11 @@ impl Vector3 {
                 })
             ).to_str().unwrap().to_string()
         }
+    }
+    */
+
+    fn to_string(&self) -> String {
+        format!("({}, {}, {})", self.get_x(), self.get_y(), self.get_z())
     }
 }
 
@@ -129,7 +133,14 @@ impl Div<f64> for Vector3 {
 
 fn main() {
     let mut a = Vector3::new();
-    println!("a.x = {} | {}", a.get_x(), a.to_string());
-    a.set_x(5.0);
-    println!("a.x = {} | {}", a.get_x(), a.to_string());
+    a.set_x(5.);
+    println!("a.x = {}", a.get_x());
+    a.set_y(1.);
+    println!("a.y = {}", a.get_y());
+    a.set_z(-1.);
+    println!("a.z = {}", a.get_z());
+    println!("a = {}", a.to_string());
+
+    let b = Vector3::from_xyz(3., 4., 5.);
+    println!("b = {} - |{}|", b.normalized().to_string(), b.norm());
 }
