@@ -2,6 +2,7 @@ extern crate cpp_build;
 
 fn main() {
     cpp_build::Config::new()
-        .object("vector3_cpp/vector.o")
+        .debug(true)
+        .object("vector/vector.o")
         .build("src/main.rs");
 }

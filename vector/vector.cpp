@@ -1,5 +1,6 @@
 #include "vector.hpp"
 #include <cmath>
+#include <string>
 
 Vector3::Vector3() {
     x = 0.0;
@@ -22,7 +23,7 @@ Vector3 Vector3::normalized() {
     return *this / n;
 }
 
-Vector3 Vector3::operator+(const Vector3 other) {
+Vector3 Vector3::operator+(const Vector3 other) const {
     return Vector3(
         x + other.x,
         y + other.y,
@@ -30,7 +31,7 @@ Vector3 Vector3::operator+(const Vector3 other) {
     );
 }
 
-Vector3 Vector3::operator-(const Vector3 other) {
+Vector3 Vector3::operator-(const Vector3 other) const {
     return Vector3(
         x - other.x,
         y - other.y,
@@ -38,7 +39,7 @@ Vector3 Vector3::operator-(const Vector3 other) {
     );
 }
 
-Vector3 Vector3::operator*(const double factor) {
+Vector3 Vector3::operator*(const double factor) const {
     return Vector3(
         x * factor,
         y * factor,
@@ -46,7 +47,7 @@ Vector3 Vector3::operator*(const double factor) {
     );
 }
 
-Vector3 Vector3::operator/(const double factor) {
+Vector3 Vector3::operator/(const double factor) const {
     return Vector3(
         x / factor,
         y / factor,
