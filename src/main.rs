@@ -1,11 +1,10 @@
 extern crate cpp;
 
 use std::ops::{Add, Sub, Mul, Div};
-// use std::ffi::CStr;
-// use libc::c_char;
 
 use cpp::cpp;
 use cpp::cpp_class;
+use cxx::let_cxx_string;
 
 cpp!{{
     #include "vector/vector.hpp"
@@ -74,24 +73,16 @@ impl Vector3 {
         })
     }
     
-    // This doesn't work
-    /*
+    /// This is the ONE RIGHT WAY to get a Rust `String` from a C++ `std::string`
     fn to_string(&self) -> String {
+        let_cxx_string!(cxxs = "");
         unsafe {
-            CStr::from_ptr(
-                cpp!([self as "Vector3*"] -> *const c_char as "const char*" {
-                    std::string s = self->toString();
-                    std::cout << s << std::endl;
-                    printf("%s\n", s.c_str());
-                    return s.c_str();
-                })
-            ).to_str().unwrap().to_string()
+            cpp!([self as "Vector3*", cxxs as "std::string*"] {
+                std::string s = self->toString();
+                *cxxs = s;
+            });
         }
-    }
-    */
-
-    fn to_string(&self) -> String {
-        format!("({}, {}, {})", self.get_x(), self.get_y(), self.get_z())
+        cxxs.to_string()
     }
 }
 
@@ -143,4 +134,10 @@ fn main() {
 
     let b = Vector3::from_xyz(3., 4., 5.);
     println!("b = {} - |{}|", b.normalized().to_string(), b.norm());
+    println!();
+
+    println!("a + b = {}", (a + b).to_string());
+    println!("a - b = {}", (a - b).to_string());
+    println!("a * 4 = {}", (a * 4.).to_string());
+    println!("b / 4 = {}", (a / 4.).to_string());
 }
