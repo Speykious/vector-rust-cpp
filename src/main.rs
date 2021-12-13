@@ -1,13 +1,17 @@
 extern crate cpp;
 
+mod temp;
+
 use std::ops::{Add, Sub, Mul, Div};
 
 use cpp::cpp;
 use cpp::cpp_class;
 use cxx::let_cxx_string;
+use temp::Temp;
 
 cpp!{{
     #include "vector/vector.hpp"
+    #include "vector/vector.cpp"
 }}
 
 cpp_class!(pub unsafe struct Vector3 as "Vector3");
@@ -137,4 +141,6 @@ fn main() {
     println!("a - b = {}", (a - b).to_string());
     println!("a * 4 = {}", (a * 4.).to_string());
     println!("b / 4 = {}", (a / 4.).to_string());
+    
+    println!("Temp: {}", Temp::new());
 }
