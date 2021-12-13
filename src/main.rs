@@ -76,12 +76,9 @@ impl Vector3 {
     /// This is the ONE RIGHT WAY to get a Rust `String` from a C++ `std::string`
     fn to_string(&self) -> String {
         let_cxx_string!(cxxs = "");
-        unsafe {
-            cpp!([self as "Vector3*", cxxs as "std::string*"] {
-                std::string s = self->toString();
-                *cxxs = s;
-            });
-        }
+        cpp!(unsafe [self as "Vector3*", cxxs as "std::string*"] {
+            *cxxs = self->toString();
+        });
         cxxs.to_string()
     }
 }
